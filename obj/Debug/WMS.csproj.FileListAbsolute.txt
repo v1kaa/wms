@@ -27,3 +27,7 @@ G:\c#\WMS\bin\Debug\System.Data.SQLite.xml
 G:\c#\WMS\obj\Debug\WMS.csproj.CopyComplete
 G:\c#\WMS\obj\Debug\views\admin_page.g.cs
 G:\c#\WMS\obj\Debug\views\admin_page.baml
+G:\c#\WMS\obj\Debug\views\workers_management.g.cs
+G:\c#\WMS\obj\Debug\views\workers_management.baml
+G:\c#\WMS\bin\Debug\users.db
+G:\c#\WMS\obj\Debug\WMS_Content.g.cs

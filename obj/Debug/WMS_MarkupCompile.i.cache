@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 G:\c#\WMS\App.xaml
-31027528883
-
-820817317
+4-190458928
+1-1864971254
+10-312454262
 19-821597789
-MainWindow.xaml;views\admin_page.xaml;views\login.xaml;
+MainWindow.xaml;views\admin_page.xaml;views\login.xaml;views\workers_management.xaml;
 
 True
 

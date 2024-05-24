@@ -24,5 +24,23 @@ namespace WMS.views
         {
             InitializeComponent();
         }
+        private void NavigationListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (NavigationListBox.SelectedItem is ListBoxItem selectedItem)
+            {
+                switch (selectedItem.Tag)
+                {
+                    case "ItemsManagement":
+                        MainContentControl.Content = null;
+                        break;
+                    case "Workers":
+                        MainContentControl.Content = new workers_management();
+                        break;
+                    default:
+                        MainContentControl.Content = null;
+                        break;
+                }
+            }
+        }
     }
 }

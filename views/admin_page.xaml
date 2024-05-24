@@ -6,7 +6,16 @@
              xmlns:local="clr-namespace:WMS.views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="AliceBlue">
-    <Grid>
-            
-    </Grid>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="200"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+		<ListBox x:Name="NavigationListBox" SelectionChanged="NavigationListBox_SelectionChanged">
+			<ListBoxItem Content="Items Management" Tag="ItemsManagement"/>
+			<ListBoxItem Content="Settings" Tag="Settings"/>
+			<ListBoxItem Content="Workers" Tag="Workers"/>
+		</ListBox>
+		<ContentControl x:Name="MainContentControl" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+	</Grid>
 </UserControl>
