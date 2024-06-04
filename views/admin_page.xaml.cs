@@ -31,13 +31,13 @@ namespace WMS.views
                 switch (selectedItem.Tag)
                 {
                     case "ItemsManagement":
-                        MainContentControl.Content = null;
+                        MainContentControl.Content = new workers_management();
                         break;
                     case "Workers":
                         MainContentControl.Content = new workers_management();
                         break;
                     default:
-                        MainContentControl.Content = null;
+                        MainContentControl.Content = new workers_management();
                         break;
                 }
             }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -27,40 +28,46 @@ namespace WMS.views
         public workers_management()
         {
             InitializeComponent();
-            connectionString = GetDatabasePath();
+           // connectionString = GetDatabasePath();
             LoadData();
         }
-        private void LoadData()
-        {
-            string query = "SELECT * FROM Users WHERE role <> 'admin'";
-            using (SqlConnection connection = new SqlConnection(DatabaseConfig.ConnectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                connection.Open();
 
-                SqlDataReader reader = command.ExecuteReader();
-                workersGrid.ItemsSource = reader; // Bind to DataGrid
+        private void LoadData() //shows all workesr in table 
+        {
+            try
+            {
+                using (var connection = new SQLiteConnection(DatabaseConfig.ConnectionString))
+                {
+                    connection.Open();
+                    string query = "SELECT id,login,password,role FROM Users ";
+
+                    using (var command = new SQLiteCommand(query, connection))
+                    {
+                        SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
+                        DataTable dataTable = new DataTable();
+                        adapter.Fill(dataTable);
+
+                        workersGrid.ItemsSource = dataTable.DefaultView; // Bind to DataGrid
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"problem while loading data : {ex.Message}");
             }
         }
 
 
 
 
+        //private string GetDatabasePath() //returns a connection string for acces to database 
+        //{
+        //    string databaseFileName = "users.db"; // Assuming the file is in the same directory as your app
+        //    string currentDirectory = Directory.GetCurrentDirectory();
+        //    string databasePath = System.IO.Path.Combine(currentDirectory, databaseFileName);
 
-        private string GetDatabasePath()
-        {
-            string databaseFileName = "users.db"; // Assuming the file is in the same directory as your app
-            string currentDirectory = Directory.GetCurrentDirectory();
-            string databasePath = System.IO.Path.Combine(currentDirectory, databaseFileName);
 
-            if (!File.Exists(databasePath))
-            {
-                // Database file not found
-                MessageBox.Show($"Database file not found at: {databasePath}");
-                return null;
-            }
-
-            return $"Data Source={databasePath}";
-        }
+        //    return $"Data Source={databasePath}";
+        //}
     }
 }

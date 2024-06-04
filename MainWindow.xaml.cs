@@ -24,7 +24,7 @@ namespace WMS
         public MainWindow()
         {
             InitializeComponent();
-            Main.Content = new login();
+            Main.Content = new admin_page();
             
         }
          void hello()
