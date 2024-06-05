@@ -7,6 +7,64 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="LightBlue">
 	<Grid>
-		<DataGrid  x:Name="workersGrid" HorizontalAlignment="Left" Height="140" Margin="89,265,0,0" VerticalAlignment="Top" Width="637" d:ItemsSource="{d:SampleData ItemCount=4}"/>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+
+			<ColumnDefinition Width="3*" />
+
+			<ColumnDefinition Width="3*" />
+			<ColumnDefinition Width="3*" />
+			<ColumnDefinition Width="*" />
+
+			<!-- 1 частина -->
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="89*" MinHeight="50" />
+			<RowDefinition Height="61*"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="150*" MinHeight="50"/>
+			<RowDefinition Height="150*" MinHeight="50"/>
+		</Grid.RowDefinitions>
+
+		<!-- Порожні стовпці для центрування -->
+		<DataGrid Grid.Row="5" Grid.ColumnSpan="3" Grid.Column="1" Name="workersGrid" 
+              AutoGenerateColumns="False" Background="#C0D9FF" BorderThickness="0" 
+              HorizontalAlignment="Center" SelectionChanged="workersGrid_SelectionChanged">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="ID" Binding="{Binding id}" Width="*" />
+				<DataGridTextColumn Header="Login" Binding="{Binding login}" Width="*" />
+				<DataGridTextColumn Header="Password" Binding="{Binding password}" Width="*" />
+				<DataGridTextColumn Header="Role" Binding="{Binding role}" Width="*" />
+			</DataGrid.Columns>
+		</DataGrid>
+
+
+		<TextBox Name="LoginTextBox" Grid.Row="2" TextWrapping="Wrap"
+				 Text="login" Grid.Column="1" Margin="2 13"
+				 />
+		<TextBox Name="PasswordTextBox" Grid.Column="2" Grid.Row="2" TextWrapping="Wrap"
+				  Text="password" Margin="2 13" 
+				 />
+		<ComboBox Grid.Column="3" Grid.Row="2" Margin="10,10,10,10" Name="RoleComboBox"  >
+			<ComboBoxItem Content="Admin" />
+			<ComboBoxItem Content="Warehouse Clerk" />
+			<ComboBoxItem Content="Logistics Clerk" />
+		</ComboBox>
+
+
+		
+			<Button Grid.Row="3" Grid.Column="1" Content="EDIT"
+					Click="EditButtonClick" Margin="5" MinWidth="90" Background="#FFA0D19D" HorizontalAlignment="Stretch"/>
+		<Button Content="ADD NEW" Margin="5" Grid.Row="3" 
+				Grid.Column="2" MinWidth="90" Background="#FFA0D19D"
+				HorizontalAlignment="Stretch" Click="AddNewUserButtonClick"/>
+		<Button Content="DELETE" Grid.Row="3" Grid.Column="3"
+				Margin="5" MinWidth="90" Background="Red"
+				HorizontalAlignment="Stretch" 
+				Click="DeleteButtonClick"/>
+
 	</Grid>
+
+
 </UserControl>

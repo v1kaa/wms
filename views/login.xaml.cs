@@ -36,14 +36,14 @@ namespace WMS.views
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            if (IfUserExist() && RoleComboBox.Text == "admin")
+            if (IfUserExist() && RoleComboBox.Text == "Admin")
             {
                 Window w = Window.GetWindow(this);
                 w.Content = new admin_page();
             }
             else
             {
-                MessageBox.Show(UsernameTextBox.Text + " " + PasswordBox.Password + " " + RoleComboBox.Text);
+                MessageBox.Show(UsernameTextBox.Text + " " + PasswordBox.Password + " " + RoleComboBox.Text+ "dont have this data in database");
             }
         }
 
