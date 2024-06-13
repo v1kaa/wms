@@ -31,3 +31,13 @@ G:\c#\WMS\obj\Debug\views\workers_management.g.cs
 G:\c#\WMS\obj\Debug\views\workers_management.baml
 G:\c#\WMS\bin\Debug\users.db
 G:\c#\WMS\obj\Debug\WMS_Content.g.cs
+G:\c#\WMS\obj\Debug\views\supplier_management.g.cs
+G:\c#\WMS\obj\Debug\views\supplier_management.baml
+G:\c#\WMS\obj\Debug\views\warehouses_management.g.cs
+G:\c#\WMS\obj\Debug\views\warehouses_management.baml
+G:\c#\WMS\obj\Debug\views\products_management.g.cs
+G:\c#\WMS\obj\Debug\views\products_management.baml
+G:\c#\WMS\obj\Debug\views\create_orders_export.g.cs
+G:\c#\WMS\obj\Debug\views\create_orders_export.baml
+G:\c#\WMS\obj\Debug\views\all_orders_export.g.cs
+G:\c#\WMS\obj\Debug\views\all_orders_export.baml

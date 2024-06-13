@@ -30,11 +30,23 @@ namespace WMS.views
             {
                 switch (selectedItem.Tag)
                 {
-                    case "ItemsManagement":
-                        MainContentControl.Content = new workers_management();
+                    case "Warehouses management":
+                        MainContentControl.Content = new warehouses_management();
                         break;
                     case "Workers":
                         MainContentControl.Content = new workers_management();
+                        break;
+                    case "Suppliers":
+                        MainContentControl.Content = new supplier_management();
+                        break;
+                    case "Products":
+                        MainContentControl.Content=new products_management();
+                        break;
+                    case "OrdersExport":
+                        MainContentControl.Content=new create_orders_export();
+                        break;
+                    case "AllOrdersForExport":
+                        MainContentControl.Content = new all_orders_export();
                         break;
                     default:
                         MainContentControl.Content = new workers_management();

@@ -12,9 +12,12 @@
 			<ColumnDefinition Width="*"/>
 		</Grid.ColumnDefinitions>
 		<ListBox x:Name="NavigationListBox" SelectionChanged="NavigationListBox_SelectionChanged">
-			<ListBoxItem Content="Items Management" Tag="ItemsManagement"/>
-			<ListBoxItem Content="Settings" Tag="Settings"/>
+			<ListBoxItem Content="Warehouses management" Tag="Warehouses management"/>
 			<ListBoxItem Content="Workers" Tag="Workers"/>
+			<ListBoxItem Content="Suppliers" Tag="Suppliers"/>
+			<ListBoxItem Content="Products management" Tag="Products"/>
+			<ListBoxItem Content="Create orders export" Tag="OrdersExport"/>
+			<ListBoxItem Content="All orders for export" Tag="AllOrdersForExport"/>
 		</ListBox>
 		<ContentControl x:Name="MainContentControl" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
 	</Grid>

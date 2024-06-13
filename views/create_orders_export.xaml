@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="WMS.views.create_orders_export"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WMS.views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="AliceBlue">
+    <Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="3*"/>
+			<RowDefinition Height="3*"/>
+			<RowDefinition/>
+			<RowDefinition Height="3*"/>
+			<RowDefinition Height="0.5*"/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition />
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+		</Grid.ColumnDefinitions>
+
+		<DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Name="OrdersGrid" 
+              AutoGenerateColumns="False" Background="#C0D9FF" BorderThickness="0" 
+              HorizontalAlignment="Center" Margin="0,20,0,20" SelectionChanged="OrdersGrid_SelectionChanged">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="ID"  Width="*" Binding="{Binding order_id}" />
+				<DataGridTextColumn Header="order_number"  Width="2*" Binding="{Binding order_number}" />
+				<DataGridTextColumn Header="order date" Width="2*" Binding="{Binding order_date}"/>
+				<DataGridTextColumn Header="vehicle" Width="2*" Binding="{Binding vehicle}"/>
+				<DataGridTextColumn Header="total price"  Width="2*" Binding="{Binding total_price}"/>
+
+			</DataGrid.Columns>
+		</DataGrid>
+		<DataGrid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Name="productsGrid" 
+              AutoGenerateColumns="False" Background="#C0D9FF" BorderThickness="0" 
+              HorizontalAlignment="Center" Margin="0,20,0,20" SelectionChanged="productsGrid_SelectionChanged">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="ID"  Width="*" Binding="{Binding product_id}" />
+				<DataGridTextColumn Header="product_name"  Width="2*" Binding="{Binding product_name}" />
+				<DataGridTextColumn Header="quantity_in_stock" Width="2*" Binding="{Binding quantity_in_stock}"/>
+				<DataGridTextColumn Header="Unit price" Width="2*" Binding="{Binding unit_price}"/>
+				<DataGridTextColumn Header="description"  Width="2*" Binding="{Binding description}"/>
+				<DataGridTextColumn Header="warehouse_id"  Width="2*" Binding="{Binding warehouse_id}"/>
+			</DataGrid.Columns>
+		</DataGrid>
+
+
+		<TextBox x:Name="quantityTextBox" Text="Quantity" Grid.Column="0" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+		<Button Click="AddItemIntoOrderDetailsTable" Grid.Column="1" Grid.Row="2" Content="ADD" Margin="10"/>
+		<Button Click="CreateNewEmptyOrder" Content="Create new empty order" Grid.Column="2" Grid.Row="2"/>
+
+
+
+		<DataGrid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Name="orderItemsGrid" 
+               Background="#C0D9FF" BorderThickness="0" 
+              HorizontalAlignment="Center" Margin="0,20,0,20" SelectionChanged="orderItemsGrid_SelectionChanged">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="product_id"  Width="*" Binding="{Binding product_id}" />
+				<DataGridTextColumn Header="product_name"  Width="2*" Binding="{Binding product_name}" />
+				<DataGridTextColumn Header="quantity" Width="2*" Binding="{Binding quantity}"/>
+				<DataGridTextColumn Header="Unit price" Width="2*" Binding="{Binding unit_price}"/>
+			</DataGrid.Columns>
+		</DataGrid>
+		<Button Content="Delete" Click="DeleteItemsFromOrderAndReturnTowarehouse" Grid.Column="3" Grid.Row="4" Margin="10 0" MaxHeight="40" MaxWidth="80"></Button>
+
+		<TextBox Name="OrderNumberTextBox" Text="Write order number" Grid.Column="0" Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MaxHeight="40"/>
+		<TextBox Name="VechicleTextBox" Text="Write order transport" Grid.Column="1" Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MaxHeight="40"/>
+		<Button x:Name="ShowCalendarButton" Content="Date" Grid.Row="5" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Click="ShowCalendarButton_Click" Width="70" Height="30" Margin="15" />
+
+		<Popup x:Name="CalendarPopup" PlacementTarget="{Binding ElementName=ShowCalendarButton}" Placement="Bottom" IsOpen="False" StaysOpen="False">
+			<Border BorderBrush="Black" BorderThickness="1">
+				<Calendar x:Name="OrderDataCalendar"
+                          DisplayModeChanged="OrderDataCalendar_DisplayModeChanged"
+                           />
+			</Border>
+		</Popup>
+
+		<Button x:Name="CreateBorderButton" Content="Create Order" Click="CreateOrderClick" Grid.Row="4" Grid.Column="3" Margin="10"/>
+	</Grid>
+</UserControl>

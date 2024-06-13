@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Data.SQLite;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,27 +18,25 @@ using System.Windows.Shapes;
 namespace WMS.views
 {
     /// <summary>
-    /// Interaction logic for workers_management.xaml
+    /// Interaction logic for supplier_management.xaml
     /// </summary>
-    public partial class workers_management : UserControl
+    public partial class supplier_management : UserControl
     {
-        string connectionString;
         int selectedId;
-        public workers_management()
+        public supplier_management()
         {
             InitializeComponent();
-            // connectionString = GetDatabasePath();
             LoadData();
         }
 
-        private void LoadData() //shows all workesr in table 
+        private void LoadData() //shows all suppliers in table 
         {
             try
             {
                 using (var connection = new SQLiteConnection(DatabaseConfig.ConnectionString))
                 {
                     connection.Open();
-                    string query = "SELECT id,login,password,role FROM Users ";
+                    string query = "SELECT id,name,address,telephone FROM suppliers ";
 
                     using (var command = new SQLiteCommand(query, connection))
                     {
@@ -48,7 +44,7 @@ namespace WMS.views
                         DataTable dataTable = new DataTable();
                         adapter.Fill(dataTable);
 
-                        workersGrid.ItemsSource = dataTable.DefaultView; // Bind to DataGrid
+                        suppliersGrid.ItemsSource = dataTable.DefaultView; // Bind to DataGrid
                     }
                 }
             }
@@ -57,15 +53,14 @@ namespace WMS.views
                 MessageBox.Show($"problem while loading data : {ex.Message}");
             }
         }
-
-        private void workersGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void suppliersGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (workersGrid.SelectedItem != null)
+            if (suppliersGrid.SelectedItem != null)
             {
-                var selectedRow = workersGrid.SelectedItem as DataRowView;
+                var selectedRow = suppliersGrid.SelectedItem as DataRowView;
                 if (selectedRow != null)
                 {
-                     selectedId = Convert.ToInt32(selectedRow["id"]);
+                    selectedId = Convert.ToInt32(selectedRow["id"]);
                     LoadUserData(selectedId);
                 }
             }
@@ -78,7 +73,7 @@ namespace WMS.views
                 using (var connection = new SQLiteConnection(DatabaseConfig.ConnectionString))
                 {
                     connection.Open();
-                    string query = "SELECT login, password, role FROM Users WHERE id = @id";
+                    string query = "SELECT name, address, telephone FROM suppliers WHERE id = @id";
 
                     using (var command = new SQLiteCommand(query, connection))
                     {
@@ -88,9 +83,9 @@ namespace WMS.views
                         {
                             if (reader.Read())
                             {
-                                LoginTextBox.Text = reader["login"].ToString();
-                                PasswordTextBox.Text = reader["password"].ToString();
-                                RoleComboBox.Text = reader["role"].ToString();
+                                NameTextBox.Text = reader["name"].ToString();
+                                AddressTextBox.Text = reader["address"].ToString();
+                                TelephoneTextBox.Text = reader["telephone"].ToString();
                             }
                         }
                     }
@@ -108,7 +103,7 @@ namespace WMS.views
                 using (var connection = new SQLiteConnection(DatabaseConfig.ConnectionString))
                 {
                     connection.Open();
-                    string query = "DELETE FROM Users WHERE id = @id";
+                    string query = "DELETE FROM suppliers WHERE id = @id";
 
                     using (var command = new SQLiteCommand(query, connection))
                     {
@@ -117,31 +112,31 @@ namespace WMS.views
                     }
                 }
 
-                MessageBox.Show("User deleted successfully.");
+                MessageBox.Show("supplier deleted successfully.");
                 LoadData();// Refresh the DataGrid after deletion
                 DefaltTextBlocksData();
-            } 
+            }
             catch (Exception ex)
             {
                 MessageBox.Show($"Problem while loading data: {ex.Message}");
             }
         }
+
         private void DefaltTextBlocksData()
         {
-            LoginTextBox.Text = "Login";
-            PasswordTextBox.Text="Password";
-            RoleComboBox.Text = null;
+            NameTextBox.Text = "Name";
+            AddressTextBox.Text = "Address";
+            TelephoneTextBox.Text = "Telephone";
         }
-
         private void AddNewUserButtonClick(object sender, RoutedEventArgs e)
         {
             try
             {
-                string login = LoginTextBox.Text;
-                string password = PasswordTextBox.Text;
-                string role = (RoleComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
+                string name = NameTextBox.Text;
+                string address = AddressTextBox.Text;
+                string telephone = TelephoneTextBox.Text;
 
-                if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password) || string.IsNullOrWhiteSpace(role))
+                if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(address) || string.IsNullOrWhiteSpace(telephone))
                 {
                     MessageBox.Show("Please fill in all fields.");
                     return;
@@ -150,19 +145,19 @@ namespace WMS.views
                 using (var connection = new SQLiteConnection(DatabaseConfig.ConnectionString))
                 {
                     connection.Open();
-                    string query = "INSERT INTO Users (login, password, role) VALUES (@login, @password, @role)";
+                    string query = "INSERT INTO suppliers (name, address, telephone) VALUES (@name, @address, @telephone)";
 
                     using (var command = new SQLiteCommand(query, connection))
                     {
-                        command.Parameters.AddWithValue("@login", login);
-                        command.Parameters.AddWithValue("@password", password);
-                        command.Parameters.AddWithValue("@role", role);
+                        command.Parameters.AddWithValue("@name", name);
+                        command.Parameters.AddWithValue("@address", address);
+                        command.Parameters.AddWithValue("@telephone", telephone);
 
                         command.ExecuteNonQuery();
                     }
                 }
 
-                MessageBox.Show("New user added successfully.");
+                MessageBox.Show("New supplier added successfully.");
                 LoadData(); // Refresh the DataGrid to show the new user
             }
             catch (Exception ex)
@@ -170,77 +165,67 @@ namespace WMS.views
                 MessageBox.Show($"Problem while adding data: {ex.Message}");
             }
         }
-        private void EditButtonClick(object sender, RoutedEventArgs e)
+
+        private async void EditButtonClick(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (workersGrid.SelectedItem != null)
+                if (suppliersGrid.SelectedItem != null)
                 {
-                    var selectedRow = workersGrid.SelectedItem as DataRowView;
+                    var selectedRow = suppliersGrid.SelectedItem as DataRowView;
                     if (selectedRow != null)
                     {
                         int userId = Convert.ToInt32(selectedRow["id"]);
 
-                        // Retrieve selected suppliers's details
-                        string oldLogin = selectedRow["login"].ToString();
-                        string oldPassword = selectedRow["password"].ToString();
-                        string oldRole = selectedRow["role"].ToString();
+                        // Retrieve selected supplier's details
+                        string oldName = selectedRow["name"].ToString();
+                        string oldAddress = selectedRow["address"].ToString();
+                        string oldTelephone = selectedRow["telephone"].ToString();
 
                         // Assuming you have input fields for editing
-                        string newLogin = LoginTextBox.Text;
-                        string newPassword = PasswordTextBox.Text;
-                        string newRole = (RoleComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
+                        string newName = NameTextBox.Text;
+                        string newAddress = AddressTextBox.Text;
+                        string newTelephone = TelephoneTextBox.Text;
 
-                        if (string.IsNullOrWhiteSpace(newLogin) || string.IsNullOrWhiteSpace(newPassword) || string.IsNullOrWhiteSpace(newRole))
+                        if (string.IsNullOrWhiteSpace(newName) || string.IsNullOrWhiteSpace(newAddress) || string.IsNullOrWhiteSpace(newTelephone))
                         {
                             MessageBox.Show("Please fill in all fields.");
                             return;
                         }
 
-                        // Update user's details in the database
+                        // Update supplier's details in the database
                         using (var connection = new SQLiteConnection(DatabaseConfig.ConnectionString))
                         {
-                            connection.Open();
-                            string query = "UPDATE Users SET login = @login, password = @password, role = @role WHERE id = @id";
+                            await connection.OpenAsync();
+                            string query = "UPDATE suppliers SET name = @name, address = @address, telephone = @telephone WHERE id = @id";
 
                             using (var command = new SQLiteCommand(query, connection))
                             {
-                                command.Parameters.AddWithValue("@login", newLogin);
-                                command.Parameters.AddWithValue("@password", newPassword);
-                                command.Parameters.AddWithValue("@role", newRole);
+                                command.Parameters.AddWithValue("@name", newName);
+                                command.Parameters.AddWithValue("@address", newAddress);
+                                command.Parameters.AddWithValue("@telephone", newTelephone);
                                 command.Parameters.AddWithValue("@id", userId);
 
-                                command.ExecuteNonQuery();
+                                await command.ExecuteNonQueryAsync();
                             }
                         }
 
-                        MessageBox.Show("User information updated successfully.");
+                        MessageBox.Show("Supplier information updated successfully.");
                         LoadData(); // Refresh the DataGrid to reflect the changes
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Please select a user to edit.");
+                    MessageBox.Show("Please select a supplier to edit.");
                 }
             }
             catch (Exception ex)
             {
+                // Consider logging the exception for future debugging
+                // LogException(ex);
                 MessageBox.Show($"Problem while editing data: {ex.Message}");
             }
         }
 
-
-
-
-
-        //private string GetDatabasePath() //returns a connection string for acces to database 
-        //{
-        //    string databaseFileName = "users.db"; // Assuming the file is in the same directory as your app
-        //    string currentDirectory = Directory.GetCurrentDirectory();
-        //    string databasePath = System.IO.Path.Combine(currentDirectory, databaseFileName);
-
-
-        //    return $"Data Source={databasePath}";
-        //}
     }
 }

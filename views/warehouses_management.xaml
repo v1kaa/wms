@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="WMS.views.warehouses_management"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WMS.views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="AliceBlue">
+    <Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="2*"/>
+			<ColumnDefinition Width="2*"/>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="2*"/>
+			<RowDefinition/>
+			<RowDefinition Height="2*"/>
+		</Grid.RowDefinitions>
+
+		<DataGrid Grid.Row="0" Grid.ColumnSpan="5" Grid.Column="0" Name="warehousesGrid" 
+              AutoGenerateColumns="False" Background="#C0D9FF" BorderThickness="0" 
+              HorizontalAlignment="Center" SelectionChanged="warehousesGrid_SelectionChanged" Margin="20">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="ID"  Width="*" Binding="{Binding warehouse_id}" />
+				<DataGridTextColumn Header="Warehouse Name"  Width="2*" Binding="{Binding warehouse_name}" />
+				<DataGridTextColumn Header="Total capacity" Width="2*" Binding="{Binding total_capacity}"/>
+				<DataGridTextColumn Header="Quantity in Stock"  Width="2*" Binding="{Binding quantity_in_stock}"/>
+			</DataGrid.Columns>
+		</DataGrid>
+
+		<Button Grid.Row="1" Grid.Column="2" Content="EDIT"
+					Click="EditButtonClick" Margin=" 10 20" MinWidth="70" Background="#FFA0D19D" HorizontalAlignment="Stretch"/>
+		<Button Content="ADD NEW" Margin="10 20" Grid.Row="1" 
+				Grid.Column="3" MinWidth="70" Background="#FFA0D19D"
+				HorizontalAlignment="Stretch" Click="AddButtonClick" />
+		<Button Content="DELETE" Grid.Row="1" Grid.Column="4"
+				Margin="10 20" MinWidth="70" Background="Red"
+				HorizontalAlignment="Stretch" 
+				Click="DeleteButtonClick"/>
+
+		<TextBox Name="WarehouseNameTextBox" Grid.Row="1" TextWrapping="Wrap"
+				 Text="Name" Grid.Column="0" Margin="5 25"
+				 />
+		<TextBox Name="TotalCapacityTextBox" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"
+				  Text="Total Capacity" Margin="5 25" />
+
+		<DataGrid Grid.Row="4" Grid.ColumnSpan="5" Grid.Column="0" Name="productsGrid" 
+              AutoGenerateColumns="False" Background="#C0D9FF" BorderThickness="0" 
+              HorizontalAlignment="Center" Margin="20">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="ID"  Width="*" Binding="{Binding product_id}" />
+				<DataGridTextColumn Header="product_name"  Width="2*" Binding="{Binding product_name}" />
+				<DataGridTextColumn Header="quantity_in_stock" Width="2*" Binding="{Binding quantity_in_stock}"/>
+				<DataGridTextColumn Header="description"  Width="2*" Binding="{Binding description}"/>
+			</DataGrid.Columns>
+		</DataGrid>
+	</Grid>
+</UserControl>
