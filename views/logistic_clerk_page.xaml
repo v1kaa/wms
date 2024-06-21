@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="WMS.views.admin_page"
+﻿<UserControl x:Class="WMS.views.logistic_clerk_page"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -13,11 +13,10 @@
 		</Grid.ColumnDefinitions>
 		<ListBox x:Name="NavigationListBox" SelectionChanged="NavigationListBox_SelectionChanged">
 			<ListBoxItem Content="Warehouses management" Tag="Warehouses management"/>
-			<ListBoxItem Content="Workers" Tag="Workers"/>
 			<ListBoxItem Content="Suppliers" Tag="Suppliers"/>
 			<ListBoxItem Content="Products management" Tag="Products"/>
 			<ListBoxItem Content="Create orders export" Tag="OrdersExport"/>
-			<ListBoxItem Content="Logout" Tag="Logout"/>
+			<ListBoxItem Content="Logout" Tag ="Logout"/>
 
 		</ListBox>
 		<ContentControl x:Name="MainContentControl" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>

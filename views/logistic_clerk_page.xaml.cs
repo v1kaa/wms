@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace WMS.views
 {
     /// <summary>
-    /// Interaction logic for admin_page.xaml
+    /// Interaction logic for logistic_clerk_page.xaml
     /// </summary>
-    public partial class admin_page : UserControl
+    public partial class logistic_clerk_page : UserControl
     {
-        public admin_page()
+        public logistic_clerk_page()
         {
             InitializeComponent();
         }
@@ -33,21 +33,19 @@ namespace WMS.views
                     case "Warehouses management":
                         MainContentControl.Content = new warehouses_management();
                         break;
-                    case "Workers":
-                        MainContentControl.Content = new workers_management();
-                        break;
+                   
                     case "Suppliers":
                         MainContentControl.Content = new supplier_management();
                         break;
                     case "Products":
-                        MainContentControl.Content=new products_management();
+                        MainContentControl.Content = new products_management();
                         break;
                     case "OrdersExport":
-                        MainContentControl.Content=new create_orders_export();
+                        MainContentControl.Content = new create_orders_export();
                         break;
                     case "Logout":
                         Window w = Window.GetWindow(this);
-                        w.Content =  new login();
+                        w.Content = new login();
                         break;
 
                     default:

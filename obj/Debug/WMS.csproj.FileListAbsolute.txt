@@ -41,3 +41,7 @@ G:\c#\WMS\obj\Debug\views\create_orders_export.g.cs
 G:\c#\WMS\obj\Debug\views\create_orders_export.baml
 G:\c#\WMS\obj\Debug\views\all_orders_export.g.cs
 G:\c#\WMS\obj\Debug\views\all_orders_export.baml
+G:\c#\WMS\obj\Debug\views\logistic_clerk_page.g.cs
+G:\c#\WMS\obj\Debug\views\warehouse_clerk_page.g.cs
+G:\c#\WMS\obj\Debug\views\logistic_clerk_page.baml
+G:\c#\WMS\obj\Debug\views\warehouse_clerk_page.baml

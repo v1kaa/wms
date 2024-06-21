@@ -89,6 +89,9 @@
     <Compile Include="views\login.xaml.cs">
       <DependentUpon>login.xaml</DependentUpon>
     </Compile>
+    <Compile Include="views\logistic_clerk_page.xaml.cs">
+      <DependentUpon>logistic_clerk_page.xaml</DependentUpon>
+    </Compile>
     <Compile Include="views\products_management.xaml.cs">
       <DependentUpon>products_management.xaml</DependentUpon>
     </Compile>
@@ -97,6 +100,9 @@
     </Compile>
     <Compile Include="views\warehouses_management.xaml.cs">
       <DependentUpon>warehouses_management.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\warehouse_clerk_page.xaml.cs">
+      <DependentUpon>warehouse_clerk_page.xaml</DependentUpon>
     </Compile>
     <Compile Include="views\workers_management.xaml.cs">
       <DependentUpon>workers_management.xaml</DependentUpon>
@@ -129,6 +135,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="views\logistic_clerk_page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="views\products_management.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -138,6 +148,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="views\warehouses_management.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\warehouse_clerk_page.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

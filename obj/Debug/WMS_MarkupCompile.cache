@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 G:\c#\WMS\App.xaml
-91839855591
+11876057182
 1-1864971254
-141301669581
+16-1077928366
 21-1868785871
-MainWindow.xaml;views\admin_page.xaml;views\all_orders_export.xaml;views\create_orders_export.xaml;views\login.xaml;views\products_management.xaml;views\supplier_management.xaml;views\warehouses_management.xaml;views\workers_management.xaml;
+MainWindow.xaml;views\admin_page.xaml;views\all_orders_export.xaml;views\create_orders_export.xaml;views\login.xaml;views\logistic_clerk_page.xaml;views\products_management.xaml;views\supplier_management.xaml;views\warehouses_management.xaml;views\warehouse_clerk_page.xaml;views\workers_management.xaml;
 
 False
 

@@ -2,11 +2,13 @@
 
 FG:\c#\WMS\MainWindow.xaml;;
 FG:\c#\WMS\views\admin_page.xaml;;
-FG:\c#\WMS\views\login.xaml;;
-FG:\c#\WMS\views\supplier_management.xaml;;
-FG:\c#\WMS\views\workers_management.xaml;;
-FG:\c#\WMS\views\warehouses_management.xaml;;
-FG:\c#\WMS\views\products_management.xaml;;
-FG:\c#\WMS\views\create_orders_export.xaml;;
 FG:\c#\WMS\views\all_orders_export.xaml;;
+FG:\c#\WMS\views\create_orders_export.xaml;;
+FG:\c#\WMS\views\login.xaml;;
+FG:\c#\WMS\views\logistic_clerk_page.xaml;;
+FG:\c#\WMS\views\products_management.xaml;;
+FG:\c#\WMS\views\supplier_management.xaml;;
+FG:\c#\WMS\views\warehouses_management.xaml;;
+FG:\c#\WMS\views\warehouse_clerk_page.xaml;;
+FG:\c#\WMS\views\workers_management.xaml;;
 

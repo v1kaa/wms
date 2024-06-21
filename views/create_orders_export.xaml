@@ -49,9 +49,9 @@
 
 
 		<TextBox x:Name="quantityTextBox" Text="Quantity" Grid.Column="0" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-		<Button Click="AddItemIntoOrderDetailsTable" Grid.Column="1" Grid.Row="2" Content="ADD" Margin="10"/>
+		<Button Click="AddItemIntoOrderDetailsTable" Grid.Column="1" Grid.Row="2" Content="ADD" Margin="10" Background="#FFA0D19D"/>
 		<Button Click="CreateNewEmptyOrder" Content="Create new empty order" Grid.Column="2" Grid.Row="2"/>
-		<Button Click="DeleteOrderClick" Content="Delete selected order" Grid.Column="3" Grid.Row="2"/>
+		<Button Click="DeleteOrderClick" Content="Delete selected order" Grid.Column="3" Grid.Row="2" Background="Red"/>
 
 
 
@@ -65,7 +65,7 @@
 				<DataGridTextColumn Header="Unit price" Width="2*" Binding="{Binding unit_price}"/>
 			</DataGrid.Columns>
 		</DataGrid>
-		<Button Content="Delete" Click="DeleteItemsFromOrderAndReturnTowarehouse" Grid.Column="3" Grid.Row="4" Margin="10 0" MaxHeight="40" MaxWidth="80"></Button>
+		<Button Content="Delete" Click="DeleteItemsFromOrderAndReturnTowarehouse" Grid.Column="3" Grid.Row="4" Margin="10 0" MaxHeight="40" MaxWidth="80" Background="Red"></Button>
 
 		<TextBox Name="OrderNumberTextBox" Text="Write new order number" Grid.Column="0" Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MaxHeight="40"/>
 		<TextBox Name="VechicleTextBox" Text="Write new order transport" Grid.Column="1" Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MaxHeight="40"/>
@@ -79,6 +79,6 @@
 			</Border>
 		</Popup>
 
-		<Button  Content="update order info " Click="ChangeOrderInfoClick" Grid.Row="5" Grid.Column="3" Margin="10"/>
+		<Button  Content="update order info " Click="ChangeOrderInfoClick" Grid.Row="5" Grid.Column="3" Margin="10" Background="#FFA0D19D"/>
 	</Grid>
 </UserControl>

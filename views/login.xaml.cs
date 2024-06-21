@@ -36,59 +36,67 @@ namespace WMS.views
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            if (IfUserExist() && RoleComboBox.Text == "Admin")
+            // Check if user exists and retrieve the role
+            var role = IfUserExist();
+            if (role == null)
             {
-                Window w = Window.GetWindow(this);
+                MessageBox.Show($"{UsernameTextBox.Text} {PasswordBox.Password} {RoleComboBox.Text} doesn't have this data in the database");
+                return;
+            }
+
+            // Validate role and navigate to corresponding page
+            Window w = Window.GetWindow(this);
+            if (role == "admin")
+            {
                 w.Content = new admin_page();
+            }
+            else if (role == "Warehouse Clerk")
+            {
+                w.Content = new warehouse_clerk_page();
+            }
+            else if (role == "Logistics Clerk")
+            {
+                w.Content = new logistic_clerk_page();
             }
             else
             {
-                MessageBox.Show(UsernameTextBox.Text + " " + PasswordBox.Password + " " + RoleComboBox.Text+ "dont have this data in database");
+                MessageBox.Show($"{UsernameTextBox.Text} is not assigned a valid role.");
             }
         }
 
-        private void AddNewUserToDatabase(string username, string password, string role)
-        {
-            using (var connection = new SQLiteConnection(DatabaseConfig.ConnectionString))
-            {
-                connection.Open();
-                string sql = "INSERT INTO users (login, password, role) VALUES (@login, @password, @role)";
-                using (var command = new SQLiteCommand(sql, connection))
-                {
-                    command.Parameters.AddWithValue("@login", username);
-                    command.Parameters.AddWithValue("@password", password);
-                    command.Parameters.AddWithValue("@role", role);
-
-                    int rowsAffected = command.ExecuteNonQuery();
-                }
-            }
-        }
-
-        private bool IfUserExist()
+        // Modified IfUserExist method to return the role if the user exists
+        private string IfUserExist()
         {
             try
             {
                 using (var connection = new SQLiteConnection(DatabaseConfig.ConnectionString))
                 {
                     connection.Open();
-                    string sql = "SELECT COUNT(*) FROM users WHERE login = @login AND password = @password AND role = @role";
+                    string sql = "SELECT role FROM users WHERE login = @login AND password = @password";
 
                     using (var command = new SQLiteCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@login", UsernameTextBox.Text);
                         command.Parameters.AddWithValue("@password", PasswordBox.Password);
-                        command.Parameters.AddWithValue("@role", RoleComboBox.Text);
 
-                        int count = Convert.ToInt32(command.ExecuteScalar());
-                        return count > 0;
+                        object result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            return result.ToString();
+                        }
+                        else
+                        {
+                            return null;
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("An error occurred: " + ex.Message);
-                return false;
+                return null;
             }
         }
+
     }
 }

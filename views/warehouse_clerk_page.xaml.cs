@@ -12,24 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WMS.views;
 
-namespace WMS
+namespace WMS.views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for warehouse_clerk_page.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class warehouse_clerk_page : UserControl
     {
-        public MainWindow()
+        public warehouse_clerk_page()
         {
             InitializeComponent();
-            Main.Content = new login();
-            
-        }
-         void hello()
-        {
-
         }
     }
 }

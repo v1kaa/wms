@@ -46,7 +46,6 @@
 				 />
 		<ComboBox Grid.Column="3" Grid.Row="2" Margin="10,10,10,10" Name="RoleComboBox"  >
 			<ComboBoxItem Content="Admin" />
-			<ComboBoxItem Content="Warehouse Clerk" />
 			<ComboBoxItem Content="Logistics Clerk" />
 		</ComboBox>
 

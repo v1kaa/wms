@@ -35,8 +35,7 @@
 		<Label Content="Role:" Grid.Row="3" Grid.Column="1" Margin="5"/>
 		<ComboBox Name="RoleComboBox" Grid.Row="3" Grid.Column="2" Margin="5" Width="180">
 			<ComboBoxItem Content="admin" />
-			<ComboBoxItem Content="Warehouse Clerk" />
-			<ComboBoxItem Content="Logistic Clerk" />
+			<ComboBoxItem Content="Logistics Clerk" />
 		</ComboBox>
 
 		<!-- Login Button -->
