@@ -35,14 +35,14 @@ namespace WMS.views
             
             LoadOrdersData();
         }
-        private void LoadData() //shows all suppliers in table 
+        private void LoadData()
         {
             try
             {
                 using (var connection = new SQLiteConnection(DatabaseConfig.ConnectionString))
                 {
                     connection.Open();
-                    string query = "SELECT product_id, product_name,quantity_in_stock,unit_price,description, warehouse_id FROM products";
+                    string query = "SELECT product_id, product_name, quantity_in_stock, unit_price, description, warehouse_id FROM products";
 
                     using (var command = new SQLiteCommand(query, connection))
                     {
@@ -56,9 +56,10 @@ namespace WMS.views
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"problem while loading data : {ex.Message}");
+                MessageBox.Show($"Problem while loading data: {ex.Message}");
             }
         }
+
         private void productsGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             {
@@ -105,40 +106,18 @@ namespace WMS.views
             }
 
             int selectedOrderId = Convert.ToInt32(selectedRow["order_id"]);
+
+            // Load order details into orderItemsGrid
             LoadOrderDetails(selectedOrderId);
+
+            // Update vehicle and order number text boxes
+            VechicleTextBox.Text = selectedRow["vehicle"].ToString();
+            OrderNumberTextBox.Text = selectedRow["order_number"].ToString();
         }
 
-        private void DisplayOrderDetails(int orderId)
-        {
-            try
-            {
-                using (var connection = new SQLiteConnection(DatabaseConfig.ConnectionString))
-                {
-                    connection.Open();
 
-                    string query = "SELECT od.product_id, p.product_name, od.quantity, od.unit_price " +
-                                   "FROM order_details od " +
-                                   "JOIN products p ON od.product_id = p.product_id " +
-                                   "WHERE od.order_id = @orderId";
 
-                    using (var command = new SQLiteCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@orderId", orderId);
 
-                        using (var adapter = new SQLiteDataAdapter(command))
-                        {
-                            DataTable dataTable = new DataTable();
-                            adapter.Fill(dataTable);
-                            orderItemsGrid.ItemsSource = dataTable.DefaultView;
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Problem while loading order details: {ex.Message}");
-            }
-        }
 
 
 
@@ -414,12 +393,14 @@ namespace WMS.views
         }
 
 
-        private void CreateOrderClick(object sender, EventArgs e)
+        private void ChangeOrderInfoClick(object sender, EventArgs e)
         {
-            DateTime newData = OrderDataCalendar.SelectedDate.Value;
-            string vehicle = VechicleTextBox.Text;
-
-            decimal totalPrice = CalculateTotalPrice();
+            int selectedOrderId = GetSelectedOrderId();
+            if (selectedOrderId == -1)
+            {
+                MessageBox.Show("Please select an order from the grid.");
+                return;
+            }
 
             try
             {
@@ -427,23 +408,68 @@ namespace WMS.views
                 {
                     connection.Open();
 
-                    // SQL query to update the order
-                    string query = "UPDATE orders SET order_date = @newData, vehicle = @vehicle, total_price = @totalPrice WHERE order_number = @orderNumber";
+                    // First, retrieve the current order information
+                    string selectQuery = "SELECT order_date, vehicle, order_number FROM orders WHERE order_id = @orderId";
+                    DateTime currentDate;
+                    string currentVehicle, currentOrderNumber;
 
-                    using (var command = new SQLiteCommand(query, connection))
+                    using (var selectCommand = new SQLiteCommand(selectQuery, connection))
                     {
-                        // Add parameters to the query
-                        command.Parameters.AddWithValue("@newData", newData);
-                        command.Parameters.AddWithValue("@vehicle", vehicle);
-                        command.Parameters.AddWithValue("@totalPrice", totalPrice);
-                        command.Parameters.AddWithValue("@orderNumber", order_number);
+                        selectCommand.Parameters.AddWithValue("@orderId", selectedOrderId);
+                        using (var reader = selectCommand.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                currentDate = reader.GetDateTime(0);
+                                currentVehicle = reader.GetString(1);
+                                currentOrderNumber = reader.GetString(2);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Selected order not found.");
+                                return;
+                            }
+                        }
+                    }
 
-                        // Execute the query
-                        command.ExecuteNonQuery();
+                    // Use new values if provided, otherwise keep the current values
+                    DateTime newDate = OrderDataCalendar.SelectedDate ?? currentDate;
+                    string newVehicle = string.IsNullOrWhiteSpace(VechicleTextBox.Text) ? currentVehicle : VechicleTextBox.Text;
+                    string newOrderNumber = string.IsNullOrWhiteSpace(OrderNumberTextBox.Text) ? currentOrderNumber : OrderNumberTextBox.Text;
+
+                    decimal totalPrice = CalculateTotalPrice(selectedOrderId);
+
+                    // SQL query to update the order
+                    string updateQuery = @"
+                UPDATE orders 
+                SET order_date = @newDate, 
+                    vehicle = @newVehicle, 
+                    total_price = @totalPrice, 
+                    order_number = @newOrderNumber 
+                WHERE order_id = @selectedOrderId";
+
+                    using (var updateCommand = new SQLiteCommand(updateQuery, connection))
+                    {
+                        updateCommand.Parameters.AddWithValue("@newDate", newDate);
+                        updateCommand.Parameters.AddWithValue("@newVehicle", newVehicle);
+                        updateCommand.Parameters.AddWithValue("@totalPrice", totalPrice);
+                        updateCommand.Parameters.AddWithValue("@newOrderNumber", newOrderNumber);
+                        updateCommand.Parameters.AddWithValue("@selectedOrderId", selectedOrderId);
+
+                        int rowsAffected = updateCommand.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("Order updated successfully.");
+                            LoadOrderDetails(selectedOrderId);
+                            LoadData();
+                            LoadOrdersData();
+                        }
+                        else
+                        {
+                            MessageBox.Show("No changes were made to the order.");
+                        }
                     }
                 }
-                MessageBox.Show("Order updated successfully.");
-                LoadOrderDetails();
             }
             catch (Exception ex)
             {
@@ -451,28 +477,30 @@ namespace WMS.views
             }
         }
 
-        private decimal CalculateTotalPrice()
+
+
+
+
+
+
+
+        private decimal CalculateTotalPrice(int orderId)
         {
             decimal totalPrice = 0;
-
             try
             {
                 using (var connection = new SQLiteConnection(DatabaseConfig.ConnectionString))
                 {
                     connection.Open();
-
                     // SQL query to retrieve the total price of products in the order
                     string query = @"
                 SELECT SUM(od.quantity * od.unit_price) AS total_price
                 FROM order_details od
-                JOIN orders o ON od.order_id = o.order_id
-                WHERE o.order_number = @orderNumber
+                WHERE od.order_id = @orderId
             ";
-
                     using (var command = new SQLiteCommand(query, connection))
                     {
-                        command.Parameters.AddWithValue("@orderNumber", order_number);
-
+                        command.Parameters.AddWithValue("@orderId", orderId);
                         object result = command.ExecuteScalar();
                         if (result != null && result != DBNull.Value)
                         {
@@ -485,9 +513,80 @@ namespace WMS.views
             {
                 MessageBox.Show($"Problem while calculating total price: {ex.Message}");
             }
-
             return totalPrice;
         }
+
+        private void DeleteOrderClick(object sender, EventArgs e)
+        {
+            if (OrdersGrid.SelectedItem == null)
+            {
+                MessageBox.Show("Please select an order to delete.");
+                return;
+            }
+
+            var selectedRow = OrdersGrid.SelectedItem as DataRowView;
+            if (selectedRow == null)
+            {
+                MessageBox.Show("Invalid selected order.");
+                return;
+            }
+
+            int orderId = Convert.ToInt32(selectedRow["order_id"]);
+
+            try
+            {
+                using (var connection = new SQLiteConnection(DatabaseConfig.ConnectionString))
+                {
+                    connection.Open();
+
+                    // Delete the order from orders table
+                    string deleteOrderQuery = "DELETE FROM orders WHERE order_id = @orderId";
+                    using (var deleteOrderCommand = new SQLiteCommand(deleteOrderQuery, connection))
+                    {
+                        deleteOrderCommand.Parameters.AddWithValue("@orderId", orderId);
+                        deleteOrderCommand.ExecuteNonQuery();
+                    }
+
+                    // Return products to warehouses
+                    string selectOrderDetailsQuery = @"
+                SELECT od.product_id, od.quantity
+                FROM order_details od
+                WHERE od.order_id = @orderId
+            ";
+
+                    using (var selectOrderDetailsCommand = new SQLiteCommand(selectOrderDetailsQuery, connection))
+                    {
+                        selectOrderDetailsCommand.Parameters.AddWithValue("@orderId", orderId);
+
+                        using (var reader = selectOrderDetailsCommand.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                int productId = Convert.ToInt32(reader["product_id"]);
+                                int quantity = Convert.ToInt32(reader["quantity"]);
+
+                                // Update products table to return quantity to warehouse
+                                string updateProductQuery = "UPDATE products SET quantity_in_stock = quantity_in_stock + @quantity WHERE product_id = @productId";
+                                using (var updateProductCommand = new SQLiteCommand(updateProductQuery, connection))
+                                {
+                                    updateProductCommand.Parameters.AddWithValue("@quantity", quantity);
+                                    updateProductCommand.Parameters.AddWithValue("@productId", productId);
+                                    updateProductCommand.ExecuteNonQuery();
+                                }
+                            }
+                        }
+                    }
+
+                    MessageBox.Show("Order deleted successfully. Products returned to warehouses.");
+                    LoadOrdersData(); // Refresh orders grid after deletion
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error deleting order: {ex.Message}");
+            }
+        }
+
 
         private void ShowCalendarButton_Click(object sender, RoutedEventArgs e)
         {

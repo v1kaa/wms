@@ -45,9 +45,7 @@ namespace WMS.views
                     case "OrdersExport":
                         MainContentControl.Content=new create_orders_export();
                         break;
-                    case "AllOrdersForExport":
-                        MainContentControl.Content = new all_orders_export();
-                        break;
+                    
                     default:
                         MainContentControl.Content = new workers_management();
                         break;

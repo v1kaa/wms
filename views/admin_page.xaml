@@ -17,7 +17,7 @@
 			<ListBoxItem Content="Suppliers" Tag="Suppliers"/>
 			<ListBoxItem Content="Products management" Tag="Products"/>
 			<ListBoxItem Content="Create orders export" Tag="OrdersExport"/>
-			<ListBoxItem Content="All orders for export" Tag="AllOrdersForExport"/>
+
 		</ListBox>
 		<ContentControl x:Name="MainContentControl" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
 	</Grid>

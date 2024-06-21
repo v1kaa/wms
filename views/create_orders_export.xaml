@@ -51,6 +51,7 @@
 		<TextBox x:Name="quantityTextBox" Text="Quantity" Grid.Column="0" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 		<Button Click="AddItemIntoOrderDetailsTable" Grid.Column="1" Grid.Row="2" Content="ADD" Margin="10"/>
 		<Button Click="CreateNewEmptyOrder" Content="Create new empty order" Grid.Column="2" Grid.Row="2"/>
+		<Button Click="DeleteOrderClick" Content="Delete selected order" Grid.Column="3" Grid.Row="2"/>
 
 
 
@@ -66,8 +67,8 @@
 		</DataGrid>
 		<Button Content="Delete" Click="DeleteItemsFromOrderAndReturnTowarehouse" Grid.Column="3" Grid.Row="4" Margin="10 0" MaxHeight="40" MaxWidth="80"></Button>
 
-		<TextBox Name="OrderNumberTextBox" Text="Write order number" Grid.Column="0" Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MaxHeight="40"/>
-		<TextBox Name="VechicleTextBox" Text="Write order transport" Grid.Column="1" Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MaxHeight="40"/>
+		<TextBox Name="OrderNumberTextBox" Text="Write new order number" Grid.Column="0" Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MaxHeight="40"/>
+		<TextBox Name="VechicleTextBox" Text="Write new order transport" Grid.Column="1" Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MaxHeight="40"/>
 		<Button x:Name="ShowCalendarButton" Content="Date" Grid.Row="5" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Click="ShowCalendarButton_Click" Width="70" Height="30" Margin="15" />
 
 		<Popup x:Name="CalendarPopup" PlacementTarget="{Binding ElementName=ShowCalendarButton}" Placement="Bottom" IsOpen="False" StaysOpen="False">
@@ -78,6 +79,6 @@
 			</Border>
 		</Popup>
 
-		<Button x:Name="CreateBorderButton" Content="Create Order" Click="CreateOrderClick" Grid.Row="4" Grid.Column="3" Margin="10"/>
+		<Button  Content="update order info " Click="ChangeOrderInfoClick" Grid.Row="5" Grid.Column="3" Margin="10"/>
 	</Grid>
 </UserControl>
